@@ -2,11 +2,6 @@ import React, { useState } from "react";
 import keys from "./keys";
 import "./App.css";
 
-const api = {
-	key: keys.API_KEY,
-	base: keys.BASE_URL,
-};
-
 function App() {
 	const dataBuild = (d) => {
 		let date = String(new window.Date());
@@ -18,7 +13,13 @@ function App() {
 	const [weather, setWeather] = useState({});
 	const search = (e) => {
 		e.key === "Enter"
-			? fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
+			? fetch(
+					`${
+						import.meta.env.VITE_BASE_URL
+					}weather?q=${query}&units=metric&APPID=${
+						import.meta.env.VITE_API_KEY
+					}`
+			  )
 					.then((res) => res.json())
 					.then((results) => {
 						setQuery("");
