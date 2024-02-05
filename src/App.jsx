@@ -16,66 +16,17 @@ function App() {
 
 	const [query, setQuery] = useState("");
 	const [weather, setWeather] = useState({});
-	// const search = (e) => {
-	// 	e.key === "Enter"
-	// 		? fetch(
-	// 				`${
-	// 					import.meta.env.VITE_BASE_URL
-	// 				}weather?q=${query}&units=metric&APPID=${
-	// 					import.meta.env.VITE_API_KEY
-	// 				}`,
-	// 				{
-	// 					headers: {
-	// 						accept: "application/json",
-	// 						"User-agent": "learning app",
-	// 					},
-	// 				}
-	// 		  )
-	// 				.then((res) => res.json())
-	// 				.then((results) => {
-	// 					setQuery("");
-	// 					setWeather(results);
-	// 					console.log(results);
-	// 				})
-	// 		: e.key;
-	// };
-
-	async function search(e) {
-		if (e.key === "Enter") {
-			try {
-				const result = await fetch(
-					`${
-						import.meta.env.VITE_BASE_URL
-					}weather?q=${query}&units=metric&APPID=${
-						import.meta.env.VITE_API_KEY
-					}`,
-					{
-						headers: {
-							accept: "application/json",
-							"User-agent": "learning app",
-						},
-					}
-				);
-
-				if (!result.ok) {
-					throw new Error(`API request failed with status ${result.status}`);
-				}
-
-				const contentType = result.headers.get("content-type");
-
-				// Check if the response is in JSON format
-				if (contentType && contentType.includes("application/json")) {
-					const json = await result.json();
-					setQuery("");
-					setWeather(json);
-				} else {
-					console.error("Received non-JSON response");
-				}
-			} catch (error) {
-				console.error("Error fetching data", error.message);
-			}
-		}
-	}
+	const search = (e) => {
+		e.key === "Enter"
+			? fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.key}`)
+					.then((res) => res.json())
+					.then((results) => {
+						setQuery("");
+						setWeather(results);
+						console.log(results);
+					})
+			: e.key;
+	};
 
 	return (
 		<div
